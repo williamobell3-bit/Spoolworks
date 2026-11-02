@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Spoolworks – 3D printing for makers and small businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#0b0f1d;--surface:#151b30;--line:#262f50;--text:#eef1fb;--muted:#9ca6c4;
+  --hot:#ff8a3d;--cool:#4da3ff;--pink:#ff4d8d;--lime:#3ddc97;--sun:#ffd23f;--vio:#a77bff;--on:#0b0f1d;color-scheme:dark;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f6f4fb;--surface:#fff;--line:#ddd8ec;--text:#16132a;--muted:#5a5675;--hot:#d9570f;--cool:#1d6fd1;--pink:#d6317f;--lime:#14804f;--sun:#a87800;--vio:#7b3fe0;--on:#fff;color-scheme:light}}
+:root[data-theme="dark"]{--bg:#0b0f1d}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;background:var(--bg);color:var(--text);font:400 1rem/1.65 "IBM Plex Sans",system-ui,sans-serif;}
+
+h1,h2,h3{font-family:Sora,system-ui,sans-serif;line-height:1.1;margin:0;letter-spacing:-.02em}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--cool);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+section{padding:96px 0;position:relative}
+header{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 78%,transparent)}
+header::after{content:"";display:block;height:3px;background:linear-gradient(90deg,var(--pink),var(--hot),var(--sun),var(--lime),var(--cool),var(--vio))}
+nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font:800 1.25rem Sora,sans-serif;text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo svg{width:30px;height:30px}
+nav ul{display:flex;gap:20px;list-style:none;margin:0;padding:0}
+nav ul a{text-decoration:none;color:var(--muted);font-size:.95rem;transition:color .2s}
+nav ul a:hover{color:var(--text)}
+.btn{display:inline-block;background:var(--a,var(--hot));color:var(--on);font:600 .95rem Sora,sans-serif;padding:13px 24px;border-radius:8px;text-decoration:none;border:0;cursor:pointer;transition:transform .15s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px -6px var(--hot)}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--cool);box-shadow:none}
+.hero{padding:72px 0 88px}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(2.6rem,6vw,4.6rem);font-weight:800}
+.hero p{color:var(--muted);font-size:1.15rem;max-width:46ch;margin:24px 0 32px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.stats{display:flex;gap:36px;margin-top:48px;flex-wrap:wrap}
+.stats b{display:block;font:800 1.5rem Sora,sans-serif}
+.stats div:nth-child(1) b{color:var(--pink)}.stats div:nth-child(2) b{color:var(--lime)}.stats div:nth-child(3) b{color:var(--cool)}
+.stats span{color:var(--muted);font-size:.9rem}
+.printer{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;overflow:hidden}
+.printer svg{width:100%;height:auto;display:block}
+.readout{display:flex;justify-content:space-between;font:500 .85rem "IBM Plex Sans",monospace;color:var(--muted);margin-top:12px}
+.readout b{color:var(--cool);font-weight:500}
+.head{max-width:620px;margin-bottom:48px}
+.head h2{font-size:clamp(2rem,4vw,3rem)}
+.head p{color:var(--muted);margin:16px 0 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:14px;padding:28px}
+.card h3{font-size:1.2rem;margin:18px 0 10px}
+.card p{margin:0;color:var(--muted)}
+.card svg{width:36px;height:36px;stroke:var(--c);fill:none;stroke-width:1.6}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.tab{background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:9px 20px;font:600 .9rem Sora,sans-serif;cursor:pointer;transition:all .2s}
+.tab[aria-selected="true"]{background:var(--c);color:var(--on);border-color:var(--c)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:32px;display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.panel h3{font-size:1.6rem;margin-bottom:12px}
+.panel p{color:var(--muted);margin:0}
+.bars div{margin-bottom:16px}
+.bars label{display:flex;justify-content:space-between;font-size:.9rem;margin-bottom:6px}
+.track{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.fill{height:100%;background:var(--c);border-radius:4px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+.model{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:border-color .2s,transform .2s}
+.model:hover{border-color:var(--c);transform:translateY(-3px)}
+.model svg{display:block;width:100%;height:auto;background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--c) 22%,var(--surface)),var(--surface) 70%)}
+.model div{padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.model h3{font-size:1.05rem}
+.tag{font:600 .75rem Sora,sans-serif;border:1px solid var(--c);color:var(--c);border-radius:999px;padding:3px 12px}
+.note{color:var(--muted);font-size:.9rem;margin-top:24px}
+.contact{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:48px;text-align:center;background-image:linear-gradient(135deg,color-mix(in srgb,var(--pink) 14%,transparent),color-mix(in srgb,var(--cool) 14%,transparent))}
+.contact p{color:var(--muted);max-width:50ch;margin:16px auto 28px}
+.contact h2{font-size:clamp(1.8rem,4vw,2.6rem)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));counter-reset:s}
+.step{padding:24px 24px 0 0;border-top:2px solid var(--line);position:relative;counter-increment:s}
+.step::before{content:counter(s);position:absolute;top:-17px;left:0;width:32px;height:32px;border-radius:50%;background:var(--c);color:var(--on);font:800 .95rem Sora,sans-serif;display:grid;place-items:center}
+.step h3{font-size:1.1rem;margin:28px 0 8px}
+.step p{margin:0;color:var(--muted);font-size:.95rem}
+footer{border-top:1px solid var(--line);padding:40px 0;color:var(--muted);font-size:.9rem}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.rar-common{--c:var(--sun)}.rar-rare{--c:var(--cool)}.rar-epic{--c:var(--vio)}.rar-legend{--c:var(--lime)}
+.drops{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.tcard{position:relative;background:var(--surface);border:2px solid var(--c);border-radius:18px;padding:12px;box-shadow:0 0 24px -10px var(--c);transition:transform .25s,box-shadow .25s}
+.tcard:hover{transform:translateY(-6px) rotate(-1deg);box-shadow:0 12px 36px -8px var(--c)}
+.tcard.rar-legend{border-color:transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(120deg,var(--hot),var(--lime),var(--cool),var(--vio),var(--hot)) border-box;background-size:100% 100%,300% 100%;animation:holo 4s linear infinite}
+@keyframes holo{to{background-position:0 0,300% 0}}
+.tcard svg{display:block;width:100%;height:auto;border-radius:10px;background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--c) 28%,var(--surface)),var(--surface) 75%)}
+.tcard h3{font-size:1.05rem;margin:12px 4px 4px}
+.meta{display:flex;justify-content:space-between;align-items:center;margin:0 4px 10px;color:var(--muted);font-size:.85rem}
+.buy{display:block;text-align:center;background:var(--c);color:var(--on);font:600 .9rem Sora,sans-serif;padding:10px;border-radius:8px;text-decoration:none}
+.rar{position:absolute;top:20px;left:20px;font:800 .68rem Sora,sans-serif;letter-spacing:.08em;text-transform:uppercase;background:var(--c);color:var(--on);padding:4px 10px;border-radius:999px}
+.mys{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:36px;margin-top:48px}
+.box{display:grid;place-items:center;min-height:240px}
+.box svg{width:210px;transform-origin:50% 85%;cursor:pointer}
+.shake{animation:shake .6s}@keyframes shake{20%{transform:rotate(-9deg)}40%{transform:rotate(9deg)}60%{transform:rotate(-6deg)}80%{transform:rotate(5deg)}}
+.prize{min-height:96px;margin:16px 0;color:var(--muted)}
+.prize b{font:800 1.5rem Sora,sans-serif;display:block;color:var(--text);margin:8px 0 2px}
+.pop{animation:pop .4s}@keyframes pop{from{transform:scale(.7);opacity:0}}
+.badges{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.badge{display:flex;flex-direction:column;align-items:center;width:84px;font-size:.72rem;text-align:center;color:var(--muted);opacity:.4;filter:grayscale(1);transition:all .4s}
+.badge.on{opacity:1;filter:none;color:var(--text)}
+.badge i{font-style:normal;font-size:1.5rem;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--bg);border:2px solid var(--c);color:var(--c);margin-bottom:6px}
+.bill{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:4px;margin-bottom:32px;background:var(--surface)}
+.bill button{border:0;background:transparent;color:var(--muted);font:600 .85rem Sora,sans-serif;padding:8px 18px;border-radius:999px;cursor:pointer}
+.bill button[aria-pressed=true]{background:var(--hot);color:var(--on)}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px;position:relative;display:flex;flex-direction:column;gap:12px}
+.plan.feat{border-color:var(--hot);box-shadow:0 0 40px -14px var(--hot)}
+.plan .price{font:800 2.4rem Sora,sans-serif}.plan .price small{font:400 .9rem 'IBM Plex Sans',sans-serif;color:var(--muted)}
+.plan ul{list-style:none;padding:0;margin:0 0 8px;color:var(--muted);flex:1}
+.plan li{padding:5px 0 5px 24px;position:relative}.plan li::before{content:'✓';position:absolute;left:0;color:var(--lime)}
+.pill{position:absolute;top:-12px;right:20px;background:var(--hot);color:var(--on);font:800 .7rem Sora,sans-serif;padding:4px 12px;border-radius:999px}
+.cards2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.pcard{border-radius:20px;padding:32px;color:#fff;background:linear-gradient(135deg,#7b3fe0,#e0307a 55%,#ff7a2f);display:flex;flex-direction:column;justify-content:space-between;gap:24px;box-shadow:0 18px 50px -20px #1d6fd1}
+.pcard p{margin:12px 0 0;color:rgba(255,255,255,.9);max-width:36ch}
+.kick{font:800 .72rem Sora,sans-serif;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+.big{font:800 3.4rem Sora,sans-serif;line-height:1;margin-top:10px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.pcard code{background:rgba(0,0,0,.28);border:1px dashed rgba(255,255,255,.5);border-radius:8px;padding:8px 14px;font:600 .95rem 'IBM Plex Sans',monospace;letter-spacing:.08em}
+.pcard .btn{background:#fff;color:#0b1f3f}
+.scard{background:var(--surface);border:2px dashed var(--line);border-radius:20px;padding:32px}
+.scard .kick{color:var(--hot);opacity:1}
+.scard p{color:var(--muted);margin:12px 0 0}
+.stamps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0;max-width:340px}
+.stamp{aspect-ratio:1;border-radius:50%;border:2px dashed var(--line);display:grid;place-items:center;color:transparent;font-size:1.3rem;transition:all .3s}
+.stamp.on{border:2px solid var(--hot);background:color-mix(in srgb,var(--hot) 22%,transparent);color:var(--hot);transform:rotate(-8deg) scale(1.06)}
+#smsg{color:var(--lime);font-weight:500;margin:0 0 16px}
+.fin{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:start}
+.flist{display:grid;gap:12px}
+.fopt{display:flex;gap:16px;align-items:center;text-align:left;width:100%;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--text);font:inherit;cursor:pointer;transition:border-color .2s,transform .2s,box-shadow .2s}
+.fopt:hover{transform:translateX(4px)}
+.fopt[aria-pressed=true]{border-color:var(--c);box-shadow:0 0 28px -12px var(--c)}
+.fopt h3{font-size:1.05rem}.fopt small{color:var(--muted)}
+.sw{width:46px;height:46px;border-radius:50%;flex:none}
+.up{margin-left:auto;font:800 .95rem Sora,sans-serif;color:var(--c)}
+.fprev{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:20px;padding:28px;text-align:center;position:sticky;top:90px}
+.fprev svg{width:100%;max-width:260px}
+.fprev h3{font-size:1.4rem;margin-top:8px;color:var(--c)}
+.fprev p{color:var(--muted);margin:10px 0 20px}
+.f-common .base{fill:var(--cool)}.f-rare .base{fill:url(#gs)}.f-epic .base{fill:var(--lime)}.f-legend .base{fill:url(#gl)}
+.shine{opacity:0}
+.f-rare .shine,.f-legend .shine{opacity:.5;animation:sweep 2.6s ease-in-out infinite}
+@keyframes sweep{from{transform:translateX(-30px)}to{transform:translateX(240px)}}
+.f-epic .vase{animation:cs 6s linear infinite}
+@keyframes cs{from{filter:hue-rotate(0deg) drop-shadow(0 0 12px var(--lime))}to{filter:hue-rotate(360deg) drop-shadow(0 0 12px var(--lime))}}
+.f-legend .vase{animation:cs2 4s ease-in-out infinite alternate}
+@keyframes cs2{from{filter:hue-rotate(-40deg)}to{filter:hue-rotate(40deg)}}
+.lvl{display:grid;gap:24px}
+.lctl{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px}
+.lctl input{accent-color:var(--hot);margin-top:12px}
+.lbar{height:10px;background:var(--line);border-radius:5px;overflow:hidden;margin:14px 0 8px}
+.lbar i{display:block;height:100%;background:linear-gradient(90deg,var(--hot),var(--lime));width:0;transition:width .4s}
+.ltiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.lt{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:22px;opacity:.5;transition:all .3s}
+.lt.on{opacity:1;border-color:var(--c)}
+.lt.cur{box-shadow:0 0 36px -10px var(--c);transform:translateY(-4px)}
+.lt h3{color:var(--c);margin:12px 0 2px;font-size:1.4rem}.lt small{color:var(--muted)}
+.lt ul{list-style:none;padding:0;margin:12px 0 0;color:var(--muted)}
+.lt li{padding:4px 0 4px 22px;position:relative}.lt li::before{content:'✓';position:absolute;left:0;color:var(--c)}
+.spools,.printers{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.spool,.pr{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:10px}
+.reel{width:84px;height:84px;flex:none;border-radius:50%;border:6px solid var(--line);background:radial-gradient(circle,var(--bg) 0 18%,transparent 19%),repeating-radial-gradient(circle,var(--k) 0 4px,color-mix(in srgb,var(--k) 70%,#000) 4px 6px);transition:background .3s}
+.spool h3,.pr h3{font-size:1.2rem}.spool small,.pr p{color:var(--muted);margin:0}
+.dots{display:flex;gap:8px;flex-wrap:wrap}
+.dot{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);background:var(--k);padding:0;cursor:pointer;transition:transform .15s}
+.dot[aria-pressed=true]{border-color:var(--text);transform:scale(1.18)}
+.reel.glow{animation:pulse 2.4s ease-in-out infinite}@keyframes pulse{50%{filter:drop-shadow(0 0 14px #7dffa0)}}
+.reel.hue{animation:cs2 4s ease-in-out infinite alternate}
+.gift{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch}
+.gform{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px;display:grid;gap:16px;align-content:start}
+.gform label{display:grid;gap:6px;font-size:.9rem;color:var(--muted)}
+.gform input,.gform select,.gform textarea{background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:11px 14px;font:inherit;width:100%}
+.gprev{border-radius:20px;padding:32px;color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:12px;background:linear-gradient(135deg,#1d6fd1,#7b3fe0 55%,#e0307a)}
+.gprev p{margin:0;color:rgba(255,255,255,.92)}
+.pr{border-top:4px solid var(--c)}.pr.lock{opacity:.55}
+.pr .lk{font:800 .78rem Sora,sans-serif;color:var(--c);text-transform:uppercase;letter-spacing:.08em}
+.pr .price{font:800 1.8rem Sora,sans-serif}
+.pr svg{width:72px;height:54px}
+.pr .btn{margin-top:auto;text-align:center}.pr.lock .btn{background:var(--line);color:var(--muted);pointer-events:none}
+[hidden]{display:none!important}
+body[data-page=home]{--a:var(--hot)}body[data-page=how]{--a:var(--pink)}body[data-page=materials]{--a:var(--hot)}body[data-page=models]{--a:var(--sun)}body[data-page=perks]{--a:var(--lime)}body[data-page=store]{--a:var(--cool)}
+nav ul a{white-space:nowrap;padding:6px 2px}nav ul a:hover,nav ul a.on{color:var(--text);box-shadow:0 3px 0 var(--c)}
+.head h2::after{content:'';display:block;width:64px;height:5px;border-radius:3px;background:var(--a,var(--hot));margin-top:14px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.tile{display:flex;flex-direction:column;gap:10px;text-decoration:none;background:var(--surface);border:2px solid var(--line);border-top:6px solid var(--c);border-radius:18px;padding:28px;transition:transform .2s,box-shadow .2s,border-color .2s}
+.tile:hover{transform:translateY(-6px);border-color:var(--c);box-shadow:0 16px 40px -16px var(--c)}
+.tile i{font:800 1.3rem Sora,sans-serif;font-style:normal;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--c);color:var(--on)}
+.tile h3{font-size:1.3rem}.tile p{margin:0;color:var(--muted)}.tile span{margin-top:auto;font:600 .9rem Sora,sans-serif;color:var(--c)}
+#hero{background:radial-gradient(ellipse at 80% 20%,color-mix(in srgb,var(--pink) 18%,transparent),transparent 55%),radial-gradient(ellipse at 10% 90%,color-mix(in srgb,var(--cool) 16%,transparent),transparent 50%),repeating-linear-gradient(0deg,color-mix(in srgb,var(--hot) 9%,transparent) 0 2px,transparent 2px 9px)}
+#services{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cpath d='M45 16 66 28v24L45 64 24 52V28zM24 28l21 12 21-12M45 40v24' fill='none' stroke='%23ff4d8d' stroke-opacity='.2' stroke-width='1.5'/%3E%3C/svg%3E")}
+#process{background:repeating-linear-gradient(90deg,color-mix(in srgb,var(--sun) 30%,transparent) 0 14px,transparent 14px 28px) 0 calc(100% - 48px)/100% 3px no-repeat}
+#materials{background:repeating-radial-gradient(circle at 100% 0,color-mix(in srgb,var(--hot) 14%,transparent) 0 5px,transparent 5px 24px)}
+#finishes{background:repeating-linear-gradient(115deg,color-mix(in srgb,var(--pink) 8%,transparent) 0 40px,color-mix(in srgb,var(--vio) 8%,transparent) 40px 80px,color-mix(in srgb,var(--cool) 8%,transparent) 80px 120px)}
+#shop{background:radial-gradient(circle at 20% 30%,color-mix(in srgb,var(--pink) 40%,transparent) 0 4px,transparent 5px) 0 0/190px 170px,radial-gradient(circle at 70% 60%,color-mix(in srgb,var(--sun) 45%,transparent) 0 3px,transparent 4px) 0 0/150px 140px,radial-gradient(circle at 40% 80%,color-mix(in srgb,var(--cool) 40%,transparent) 0 5px,transparent 6px) 0 0/230px 210px,radial-gradient(circle at 85% 20%,color-mix(in srgb,var(--lime) 40%,transparent) 0 3px,transparent 4px) 0 0/170px 200px}
+#club{background:repeating-linear-gradient(45deg,color-mix(in srgb,var(--cool) 8%,transparent) 0 14px,transparent 14px 28px)}
+#levels{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='80'%3E%3Cpath d='M0 80V64h30V48h30V32h30V16h30V0' fill='none' stroke='%233ddc97' stroke-opacity='.25' stroke-width='2'/%3E%3C/svg%3E")}
+#gear{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='36'%3E%3Cpath d='M0 18q15-14 30 0t30 0 30 0 30 0' fill='none' stroke='%234da3ff' stroke-opacity='.22' stroke-width='2'/%3E%3C/svg%3E")}
+#models{background:radial-gradient(ellipse at 50% 0,color-mix(in srgb,var(--sun) 18%,transparent),transparent 60%),radial-gradient(ellipse at 15% 100%,color-mix(in srgb,var(--pink) 12%,transparent),transparent 50%)}
+@media (max-width:820px){.gift{grid-template-columns:1fr}.fin{grid-template-columns:1fr}.fprev{position:static}.cards2{grid-template-columns:1fr}.mys{grid-template-columns:1fr;padding:24px}.hero .wrap,.panel{grid-template-columns:1fr}nav{flex-wrap:wrap;height:auto;padding:8px 0}nav ul{order:3;width:100%;overflow-x:auto;gap:16px;padding:4px 0}section{padding:64px 0}.contact{padding:32px 20px}.gal{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><nav>
+  <a class="logo" href="#home"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="4" width="52" height="9" rx="4.5" fill="var(--cool)"/><rect x="13" y="17" width="38" height="6" rx="3" fill="var(--hot)"/><rect x="13" y="25.5" width="38" height="6" rx="3" fill="var(--sun)"/><rect x="13" y="34" width="38" height="6" rx="3" fill="var(--lime)"/><rect x="13" y="42.5" width="38" height="6" rx="3" fill="var(--pink)"/><rect x="6" y="51" width="52" height="9" rx="4.5" fill="var(--vio)"/></svg>Spoolworks</a>
+  <ul><li><a href="#home" style="--c:var(--vio)">Home</a></li><li><a href="#how" style="--c:var(--pink)">How it works</a></li><li><a href="#materials" style="--c:var(--hot)">Materials</a></li><li><a href="#models" style="--c:var(--sun)">Models</a></li><li><a href="#perks" style="--c:var(--lime)">Perks</a></li><li><a href="#store" style="--c:var(--cool)">Shop</a></li></ul>
+  <a class="btn" href="#contact">Start a project</a>
+</nav></div></header>
+
+<main id="top">
+<section class="hero" id="hero"><div class="wrap">
+  <div>
+    <h1>Your idea, printed in the color and material you pick.</h1>
+    <p>From weekend projects to small product runs, we turn your 3D files into finished parts and ship them to your door.</p>
+    <div class="cta"><a class="btn" href="#contact">Start a project</a><a class="btn ghost" href="#models">See example prints</a></div>
+    <div class="stats">
+      <div><b>PLA &amp; PETG</b><span>kept in stock</span></div>
+      <div><b>Any color</b><span>we source what you need</span></div>
+      <div><b>1 to 100+</b><span>parts per order</span></div>
+    </div>
+  </div>
+  <div class="printer">
+    <svg id="rig" viewBox="0 0 400 420" role="img" aria-label="Animation of a vase being printed layer by layer">
+      <rect x="20" y="380" width="360" height="12" rx="4" fill="var(--line)"/>
+      <g id="layers"></g>
+      <g id="head"><rect x="-20" y="0" width="40" height="22" rx="4" fill="var(--cool)"/><polygon points="-8,22 8,22 0,34" fill="var(--hot)"/></g>
+      <rect x="20" y="10" width="360" height="4" rx="2" fill="var(--line)"/>
+    </svg>
+    <div class="readout"><span>Layer <b id="ly">0</b> / 84</span><span>Nozzle <b>220 °C</b></span><span>Bed <b>60 °C</b></span></div>
+  </div>
+</div></section>
+
+<section id='tiles'><div class='wrap'>
+  <div class='head'><h2>Where to?</h2><p>Pick a page to explore.</p></div>
+  <div class='tiles'>
+    <a class='tile' href='#how' style='--c:var(--pink)'><i>1</i><h3>How it works</h3><p>See what we make and how an order goes.</p><span>Open →</span></a>
+    <a class='tile' href='#materials' style='--c:var(--hot)'><i>2</i><h3>Materials &amp; finishes</h3><p>Compare filaments and pick a finish.</p><span>Open →</span></a>
+    <a class='tile' href='#models' style='--c:var(--sun)'><i>3</i><h3>Example prints</h3><p>Browse models by material.</p><span>Open →</span></a>
+    <a class='tile' href='#perks' style='--c:var(--lime)'><i>4</i><h3>Cards &amp; perks</h3><p>Stamps, popularity cards, mystery boxes, club, and levels.</p><span>Open →</span></a>
+    <a class='tile' href='#store' style='--c:var(--cool)'><i>5</i><h3>Filament &amp; printers</h3><p>Order spools, gift one, or pick a printer.</p><span>Open →</span></a>
+    <a class='tile' href='#contact' style='--c:var(--vio)'><i>6</i><h3>Start a project</h3><p>Send us your file or your idea.</p><span>Contact us →</span></a>
+  </div>
+</div></section>
+
+<section id="services"><div class="wrap">
+  <div class="head"><h2>What we make</h2><p>Hobby builds and business parts get the same care.</p></div>
+  <div class="grid">
+    <div class="card" style="--c:var(--pink)"><svg viewBox="0 0 36 36"><path d="M18 3 4 10v16l14 7 14-7V10zM4 10l14 7 14-7M18 17v16"/></svg><h3>Prototypes</h3><p>Check the fit and feel of a design, then tweak the file and print again.</p></div>
+    <div class="card" style="--c:var(--lime)"><svg viewBox="0 0 36 36"><rect x="4" y="4" width="11" height="11"/><rect x="21" y="4" width="11" height="11"/><rect x="4" y="21" width="11" height="11"/><rect x="21" y="21" width="11" height="11"/></svg><h3>Small batches</h3><p>Matching parts in bulk for shops, events, and early product launches.</p></div>
+    <div class="card" style="--c:var(--sun)"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="6"/><path d="M18 3v6M18 27v6M3 18h6M27 18h6M7 7l4 4M25 25l4 4M29 7l-4 4M11 25l-4 4"/></svg><h3>Custom and replacement parts</h3><p>Broken clip or missing knob? Send photos and measurements and we’ll model it.</p></div>
+    <div class="card" style="--c:var(--cool)"><svg viewBox="0 0 36 36"><path d="M5 31 8 21 25 4l7 7L15 28zM22 7l7 7"/></svg><h3>Print-ready advice</h3><p>We flag thin walls and weak spots before printing, so you waste less time and filament.</p></div>
+  </div>
+</div></section>
+
+<section id="materials"><div class="wrap">
+  <div class="head"><h2>Choose a material</h2><p>Each filament has strengths. Select one to compare. Don’t see yours? Ask, and we’ll order it in.</p></div>
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <div class="panel" id="panel" role="tabpanel"></div>
+</div></section>
+
+<section id='finishes'><div class='wrap'>
+  <div class='head'><h2>Pick a finish</h2><p>Same part, different personality. Choose a finish to preview it. Upcharges shown are samples.</p></div>
+  <div class='fin'><div class='flist' id='flist'></div>
+  <div class='fprev rar-common' id='fprev'><svg id='fv' class='f-common' viewBox='0 0 200 160' role='img' aria-label='Vase preview'><defs><clipPath id='vc'><path d='M70 20h60c0 25-18 30-18 50 0 25 28 30 28 70H60c0-40 28-45 28-70 0-20-18-25-18-50z'/></clipPath><linearGradient id='gs' x1='0' y1='0' x2='1' y2='1'><stop offset='0' style='stop-color:var(--hot)'/><stop offset='.5' style='stop-color:var(--cool)'/><stop offset='1' style='stop-color:var(--vio)'/></linearGradient><linearGradient id='gl' x1='0' y1='0' x2='1' y2='1'><stop offset='0' style='stop-color:var(--hot)'/><stop offset='.35' style='stop-color:var(--lime)'/><stop offset='.7' style='stop-color:var(--cool)'/><stop offset='1' style='stop-color:var(--vio)'/></linearGradient><pattern id='fl' width='4' height='4' patternUnits='userSpaceOnUse'><rect width='4' height='1.3' fill='#000' opacity='.22'/></pattern></defs><ellipse cx='100' cy='146' rx='60' ry='6' fill='#000' opacity='.25'/><g class='vase' clip-path='url(#vc)'><rect class='base' width='200' height='160'/><g class='shine'><rect x='20' y='0' width='26' height='160' fill='#fff' transform='skewX(-20)'/></g><rect width='200' height='160' fill='url(#fl)' style='mix-blend-mode:multiply'/></g></svg><h3 id='fn'></h3><p id='fd'></p><a class='btn' id='fa' href='#'>Add to my order</a></div></div>
+</div></section>
+
+<section id='shop'><div class='wrap'>
+  <div class='head'><h2>Cards &amp; Perks</h2><p>Every order earns you something. Share a card with a friend, collect stamps toward a free print, or open a mystery box for surprise perks. Cards and offers shown are samples.</p></div>
+  <div class='cards2'>
+    <div class='pcard'><div><span class='kick'>Popularity Card</span><div class='big'>50% off</div><p>Buy anything and we send you this card. Give it to a friend and they get half off their first order.</p></div><div class='row'><code>FRIEND-7K2Q</code><button class='btn' id='share'>Share with a friend</button></div></div>
+    <div class='scard'><div class='row'><span class='kick'>Stamp Card</span><b id='sc'>0 / 8</b></div><p>Every order earns stamps, and bigger orders earn more. Fill the card and your next print is free.</p><div class='stamps' id='stamps'></div><p id='smsg'></p><div class='cta'><button class='btn ghost' data-s='1'>Small order +1</button><button class='btn ghost' data-s='2'>Big order +2</button></div></div>
+  </div>
+  <div class='mys'>
+    <div class='box'><svg id='mb' viewBox='0 0 200 200' role='img' aria-label='Mystery box'><polygon points='100,30 170,65 100,100 30,65' fill='var(--sun)'/><polygon points='30,65 100,100 100,175 30,140' fill='var(--cool)'/><polygon points='170,65 100,100 100,175 170,140' fill='var(--vio)'/><text x='100' y='76' text-anchor='middle' font-family='Sora,sans-serif' font-weight='800' font-size='34' fill='var(--on)'>?</text></svg></div>
+    <div><h3 style='font-size:1.8rem'>Mystery Box</h3><p style='color:var(--muted);margin:10px 0 0'>Every box holds a surprise print plus a perk. The rarer the pull, the bigger the perk. Try a demo pull and unlock badges as you go.</p>
+    <div class='prize' id='prize' aria-live='polite'>Tap the box or the button to open one.</div>
+    <div class='cta'><button class='btn' id='open'>Open a box</button><a class='btn ghost' href='mailto:hello@spoolworks.example?subject=Mystery%20Box'>Order a real box · $24</a></div>
+    <div class='badges' id='badges'></div></div>
+  </div>
+</div></section>
+
+<section id='club' style='padding-top:0'><div class='wrap'>
+  <div class='head'><h2>Join Spool Club</h2><p>A new surprise in your mailbox every month, in the colors you like. Pause or cancel anytime. Plans and prices shown are samples.</p></div>
+  <div class='bill'><button data-y='0' aria-pressed='true'>Monthly</button><button data-y='1' aria-pressed='false'>Yearly · save 20%</button></div>
+  <div class='grid' id='plans'></div>
+</div></section>
+
+<section id='levels' style='padding-top:0'><div class='wrap'>
+  <div class='head'><h2>Level up as you order</h2><p>The more you print with us, the more you unlock. Drag the slider to see each level. Perks shown are samples.</p></div>
+  <div class='lvl'><div class='lctl'><label for='ord'>Orders placed: <b id='oc'>0</b></label><input id='ord' type='range' min='0' max='20' value='0' style='width:100%'><div class='lbar'><i id='lb'></i></div><div id='lm' style='color:var(--muted)'></div></div><div class='ltiers' id='ltiers'></div></div>
+</div></section>
+
+<section id='gear'><div class='wrap'>
+  <div class='head'><h2>Filament &amp; printers</h2><p>Order spools for your own printer, gift one to a friend, or pick up a printer of your own. This is a preview and none of it is live yet. Prices are samples.</p></div>
+  <div class='tabs' id='gtabs'></div>
+  <div id='g0'><div class='spools' id='spools'></div></div>
+  <div id='g3' hidden><p style='color:var(--muted);margin:0 0 20px'>Limited runs in rare finishes. When a run sells out, that color retires for good. Editions and prices shown are samples.</p><div class='spools' id='editions'></div></div>
+  <div id='g1' hidden><div class='gift'>
+    <div class='gform'><label>Friend’s name<input id='gn' value='Alex'></label><label>Material<select id='gm'></select></label><label>Color<select id='gc'></select></label><label>Message<textarea id='gmsg' rows='3'>Happy printing! Hope this one turns out great.</textarea></label><a class='btn' href='mailto:hello@spoolworks.example?subject=Tell%20me%20when%20gifting%20is%20live'>Tell me when gifting is live</a></div>
+    <div class='gprev' id='gprev'><span class='kick'>A gift for</span><b id='gto' style='font:800 1.9rem Sora,sans-serif'></b><div class='reel' id='greel'></div><p id='gline'></p><p id='gnote' style='font-style:italic'></p></div>
+  </div></div>
+  <div id='g2' hidden><p id='pmsg' style='color:var(--muted);margin:0 0 20px'></p><div class='printers' id='printers'></div></div>
+</div></section>
+
+<section id="models"><div class="wrap">
+  <div class="head"><h2>Example prints</h2><p>A taste of what comes off the printer. Filter by material.</p></div>
+  <div class="tabs" id="ftabs"></div>
+  <div class="gal" id="gal"></div>
+  <p class="note">These are illustrations. Photos of our real prints will replace them.</p>
+</div></section>
+
+<section id="process"><div class="wrap">
+  <div class="head"><h2>How it works</h2></div>
+  <div class="steps">
+    <div class="step" style="--c:var(--pink)"><h3>Send your file</h3><p>Upload an STL, STEP, or 3MF, or describe what you need.</p></div>
+    <div class="step" style="--c:var(--lime)"><h3>Get a price</h3><p>We check your design and reply with a price and timeline.</p></div>
+    <div class="step" style="--c:var(--sun)"><h3>We print</h3><p>Parts are printed, cleaned up, and checked.</p></div>
+    <div class="step" style="--c:var(--cool)"><h3>Delivered</h3><p>Tracked shipping straight to you.</p></div>
+  </div>
+</div></section>
+
+<section id="contact" style="padding-top:0"><div class="wrap"><div class="contact">
+  <h2>Have a model in mind?</h2>
+  <p>Send your file or just describe the idea. Tell us the material and color you want, and we’ll take it from there.</p>
+  <a class="btn" href="mailto:hello@spoolworks.example?subject=New%20project">Email us your project</a>
+</div></div></section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 Spoolworks</span><span>hello@spoolworks.example</span></div></footer>
+
+<script>
+var NS='http://www.w3.org/2000/svg';
+(function(){
+  var g=document.getElementById('layers'),head=document.getElementById('head'),ly=document.getElementById('ly'),N=84,rows=[];
+  for(var i=0;i<N;i++){
+    var t=i/N,w=70+38*Math.sin(t*Math.PI*1.1+.3)+26*t*t,r=document.createElementNS(NS,'rect');
+    r.setAttribute('x',200-w);r.setAttribute('width',w*2);r.setAttribute('y',376-(i+1)*4);r.setAttribute('height',3.4);r.setAttribute('rx',1.5);
+    r.setAttribute('fill','hsl('+(t*300)+',90%,62%)');r.style.opacity=0;g.appendChild(r);rows.push({r:r,w:w});
+  }
+  var n=0,x=0,dir=1;
+  function draw(c){rows.forEach(function(o,i){o.r.style.opacity=i<c?1:0});ly.textContent=c;
+    var cur=rows[Math.min(c,N-1)];head.setAttribute('transform','translate('+(200+cur.w*x)+','+(340-c*4)+')')}
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches){draw(N);return}
+  setInterval(function(){x+=dir*.25;if(Math.abs(x)>=1){dir*=-1;n++;if(n>N+10)n=0}draw(Math.min(n,N))},45);
+})();
+var M=[
+ {n:'PLA',c:'--pink',d:'Easy to print, crisp detail, and available in hundreds of colors. Great for display pieces, gifts, and fit checks.',s:{Strength:55,Detail:90,'Heat resistance':25,Flexibility:15}},
+ {n:'PETG',c:'--cool',d:'Tougher than PLA, with some give and good moisture resistance. A strong choice for everyday functional parts.',s:{Strength:70,Detail:75,'Heat resistance':50,Flexibility:40}},
+ {n:'TPU',c:'--lime',d:'Rubbery and flexible. Used for grips, bumpers, cases, and anything that needs to bend. Available on request.',s:{Strength:60,Detail:55,'Heat resistance':45,Flexibility:95}},
+ {n:'ASA',c:'--sun',d:'Holds up to sun and heat outdoors. Good for brackets, enclosures, and parts that live outside. Available on request.',s:{Strength:78,Detail:65,'Heat resistance':80,Flexibility:30}}
+];
+var tabs=document.getElementById('tabs'),panel=document.getElementById('panel');
+function show(i){
+  [].forEach.call(tabs.children,function(b,j){b.setAttribute('aria-selected',j===i)});
+  var m=M[i],h='<div><h3>'+m.n+'</h3><p>'+m.d+'</p></div><div class="bars">';
+  for(var k in m.s)h+='<div><label><span>'+k+'</span><span>'+m.s[k]+'%</span></label><div class="track"><div class="fill" style="width:0"></div></div></div>';
+  panel.innerHTML=h+'</div>';panel.style.setProperty('--c','var('+m.c+')');
+  requestAnimationFrame(function(){requestAnimationFrame(function(){
+    var v=Object.values(m.s);panel.querySelectorAll('.fill').forEach(function(e,j){e.style.width=v[j]+'%'})})});
+}
+M.forEach(function(m,i){
+  var b=document.createElement('button');b.className='tab';b.role='tab';b.textContent=m.n;b.style.setProperty('--c','var('+m.c+')');b.onclick=function(){show(i)};tabs.appendChild(b);
+});
+show(0);
+// Gallery: each model is drawn as SVG with layer-line texture
+function gear(){var p=[],T=12,i,a,r;for(i=0;i<T*4;i++){a=i/(T*4)*Math.PI*2;r=[78,78,64,64][i%4];p.push((100+r*Math.cos(a)).toFixed(1)+','+(80+r*Math.sin(a)).toFixed(1))}
+  return '<polygon points="'+p.join(' ')+'" fill="var(--c)"/><circle cx="100" cy="80" r="22" fill="var(--bg)"/>'}
+function hexes(){var s='',o=[[70,60],[130,60],[100,110],[40,110],[160,110]],k;
+  for(k=0;k<o.length;k++){var p=[],j;for(j=0;j<6;j++){var a=Math.PI/3*j+Math.PI/6;p.push((o[k][0]+26*Math.cos(a)).toFixed(1)+','+(o[k][1]+26*Math.sin(a)).toFixed(1))}
+    s+='<polygon points="'+p.join(' ')+'" fill="var(--c)" opacity="'+(k%2?.75:1)+'" stroke="var(--bg)" stroke-width="3"/>'}return s}
+var G=[
+ {n:'Spiral vase',m:'PLA',c:'--pink',s:'<path d="M70 20h60c0 25-18 30-18 50 0 25 28 30 28 70H60c0-40 28-45 28-70 0-20-18-25-18-50z" fill="var(--c)"/>'},
+ {n:'Drive gear',m:'PETG',c:'--cool',s:gear()},
+ {n:'Phone stand',m:'PETG',c:'--lime',s:'<path d="M40 140 70 50l22 6-8 30 66 0 4 54z" fill="var(--c)"/><rect x="60" y="48" width="38" height="8" rx="3" fill="var(--c)"/>'},
+ {n:'Succulent planter',m:'PLA',c:'--sun',s:'<path d="M55 90h90l-14 52H69z" fill="var(--c)"/><path d="M100 90C84 70 80 50 90 38c10 12 12 30 10 52zM100 90c16-18 22-36 14-50-12 10-16 28-14 50z" fill="var(--lime)"/>'},
+ {n:'Mounting bracket',m:'PETG',c:'--hot',s:'<path d="M45 30h40v70h70v40H45z" fill="var(--c)"/><circle cx="65" cy="50" r="7" fill="var(--bg)"/><circle cx="65" cy="118" r="7" fill="var(--bg)"/><circle cx="135" cy="120" r="7" fill="var(--bg)"/>'},
+ {n:'Hex tile set',m:'PLA',c:'--vio',s:hexes()}
+];
+var gal=document.getElementById('gal'),ft=document.getElementById('ftabs');
+function render(f){
+  gal.innerHTML=G.filter(function(x){return f==='All'||x.m===f}).map(function(x){
+    return '<article class="model" style="--c:var('+x.c+')"><svg viewBox="0 0 200 160" role="img" aria-label="'+x.n+'"><defs><pattern id="l'+x.n.length+'" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="1.3" fill="#000" opacity=".22"/></pattern></defs><ellipse cx="100" cy="146" rx="70" ry="6" fill="#000" opacity=".25"/><g>'+x.s+'</g><g style="mix-blend-mode:multiply;opacity:.9"><rect width="200" height="160" fill="url(#l'+x.n.length+')"/></g></svg><div><h3>'+x.n+'</h3><span class="tag">'+x.m+'</span></div></article>'}).join('');
+}
+['All','PLA','PETG'].forEach(function(f,i){
+  var b=document.createElement('button');b.className='tab';b.textContent=f;b.style.setProperty('--c','var(--hot)');b.setAttribute('aria-selected',i===0);
+  b.onclick=function(){[].forEach.call(ft.children,function(e){e.setAttribute('aria-selected',e===b)});render(f)};ft.appendChild(b);
+});
+render('All');
+// Shop: drops, mystery box, badges, club
+var L={common:'Common',rare:'Rare',epic:'Epic',legend:'Legendary'};
+var st=0,SN=8,sl=document.getElementById('stamps');
+sl.innerHTML=Array.from({length:SN},()=>`<div class='stamp'>●</div>`).join('');
+function stamp(n){if(st>=SN)st=0;st=Math.min(SN,st+n);[].forEach.call(sl.children,(e,i)=>e.classList.toggle('on',i<st));document.getElementById('sc').textContent=st+' / '+SN;document.getElementById('smsg').textContent=st>=SN?'Card full! Your next print is free.':(SN-st)+' more to go until a free print.'}
+document.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>stamp(+b.dataset.s));stamp(0);
+document.getElementById('share').onclick=function(){this.textContent='Card sent! Your friend gets 50% off.'};
+var F=[{r:'common',n:'Standard',d:'Solid PLA and PETG colors. Reliable, clean, and the most budget-friendly choice.',up:0,sw:'var(--cool)'},{r:'rare',n:'Silk & Matte',d:'Silk gives a shiny, metallic glow. Matte gives a soft, modern look with fewer visible layer lines.',up:3,sw:'linear-gradient(135deg,var(--hot),var(--cool),var(--vio))'},{r:'epic',n:'Glow & Color-shift',d:'Glow-in-the-dark and color-changing filaments that look different in light and shade.',up:6,sw:'conic-gradient(var(--lime),var(--hot),var(--vio),var(--lime))'},{r:'legend',n:'Custom Blend',d:'We work with you on a one-off color or color combination made just for your print.',up:12,sw:'linear-gradient(135deg,var(--hot),var(--lime),var(--cool),var(--vio))'}];
+document.getElementById('flist').innerHTML=F.map((f,i)=>`<button class='fopt rar-${f.r}' data-i='${i}' aria-pressed='${i===0}'><span class='sw' style='background:${f.sw}'></span><span><h3>${f.n}</h3><small>${L[f.r]}</small></span><span class='up'>${f.up?'+$'+f.up+' per part':'Included'}</span></button>`).join('');
+function fin(i){var f=F[i];document.querySelectorAll('.fopt').forEach((b,j)=>b.setAttribute('aria-pressed',j===i));document.getElementById('fprev').className='fprev rar-'+f.r;document.getElementById('fv').setAttribute('class','f-'+f.r);document.getElementById('fn').textContent=f.n;document.getElementById('fd').textContent=f.d;document.getElementById('fa').href='mailto:hello@spoolworks.example?subject='+encodeURIComponent('Finish: '+f.n)}
+document.querySelectorAll('.fopt').forEach(b=>b.onclick=()=>fin(+b.dataset.i));fin(0);
+var LV=[{r:'common',n:'Spool',at:0,p:['Popularity Card with every order','Stamp Card to earn a free print']},{r:'rare',n:'Layer',at:3,p:['A free silk or matte upgrade each month','First look at new colors']},{r:'epic',n:'Nozzle',at:8,p:['Stamp Card fills with 6 stamps instead of 8','Priority spot in the print queue']},{r:'legend',n:'Legend',at:15,p:['Free shipping on every order','A free custom blend each year','A birthday print every year']}];
+document.getElementById('ltiers').innerHTML=LV.map(l=>`<div class='lt rar-${l.r}'><span class='tag'>${L[l.r]}</span><h3>${l.n}</h3><small>${l.at?l.at+' orders':'Everyone starts here'}</small><ul>${l.p.map(p=>`<li>${p}</li>`).join('')}</ul></div>`).join('');
+function lvl(){var n=+document.getElementById('ord').value,ci=0;LV.forEach((l,i)=>{if(n>=l.at)ci=i});
+  document.getElementById('oc').textContent=n;
+  document.querySelectorAll('.lt').forEach((e,i)=>{e.classList.toggle('on',i<=ci);e.classList.toggle('cur',i===ci)});
+  var c=LV[ci],x=LV[ci+1];
+  document.getElementById('lb').style.width=(x?(n-c.at)/(x.at-c.at)*100:100)+'%';
+  document.getElementById('lm').innerHTML=x?`You are at <b style='color:var(--text)'>${c.n}</b>. ${x.at-n} more order${x.at-n>1?'s':''} to reach <b style='color:var(--text)'>${x.n}</b>.`:`You reached <b style='color:var(--text)'>${c.n}</b>, the top level.`}
+document.getElementById('ord').oninput=lvl;lvl();
+var COL=[{n:'Void',k:'#161b22'},{n:'Frostbite White',k:'#e9eef4'},{n:'Storm Cloud',k:'#8a97a8'},{n:'Cherry Bomb',k:'#e5383b'},{n:'Sunset Blaze',k:'#ff7a2f'},{n:'Solar Flare',k:'#ffd23f'},{n:'Zap Lime',k:'#b6f03c'},{n:'Jungle Pulse',k:'#1fae5b'},{n:'Mint Mojito',k:'#3ddc97'},{n:'Lagoon',k:'#14b8a6'},{n:'Glacier Aqua',k:'#2de2e6'},{n:'Sky Dive',k:'#4da3ff'},{n:'Deep Current',k:'#1d6fd1'},{n:'Midnight Ocean',k:'#14275c'},{n:'Indigo Storm',k:'#6366f1'},{n:'Ultraviolet',k:'#9a5cf0'},{n:'Neon Orchid',k:'#e05bd8'},{n:'Bubblegum Pop',k:'#ff7fb2'},{n:'Espresso Shot',k:'#6f4a35'}],MAT=[{n:'PLA',p:22},{n:'PETG',p:24},{n:'TPU',p:38},{n:'ASA',p:36}];
+function ol(m,c){return 'mailto:hello@spoolworks.example?subject='+encodeURIComponent('Order: '+m+' in '+c)}
+document.getElementById('spools').innerHTML=MAT.map(m=>`<div class='spool' style='--k:${COL[10].k}' data-n='${m.n}'><div class='reel'></div><h3>${m.n}</h3><b class='cn' style='font:600 .9rem Sora,sans-serif'>${COL[10].n}</b><div class='dots'>${COL.map((c,i)=>`<button class='dot' style='--k:${c.k}' aria-label='${c.n}' title='${c.n}' aria-pressed='${i===10}' data-i='${i}'></button>`).join('')}</div><small>1 kg spool · from $${m.p}</small><a class='btn' href='${ol(m.n,COL[10].n)}'>Add to order</a></div>`).join('');
+document.getElementById('spools').onclick=e=>{var d=e.target.closest('.dot');if(!d)return;var s=d.closest('.spool'),c=COL[+d.dataset.i];s.style.setProperty('--k',c.k);s.querySelectorAll('.dot').forEach(x=>x.setAttribute('aria-pressed',x===d));s.querySelector('.btn').href=ol(s.dataset.n,c.n);s.querySelector('.cn').textContent=c.n};
+document.getElementById('gm').innerHTML=MAT.map(m=>`<option>${m.n}</option>`).join('');
+document.getElementById('gc').innerHTML=COL.map(c=>`<option>${c.n}</option>`).join('');
+document.getElementById('gc').value='Glacier Aqua';
+function gp(){var m=document.getElementById('gm').value,c=COL.find(x=>x.n===document.getElementById('gc').value);document.getElementById('gto').textContent=document.getElementById('gn').value||'a friend';document.getElementById('greel').style.setProperty('--k',c.k);document.getElementById('gline').textContent='A 1 kg spool of '+m+' in '+c.n+' is on its way.';document.getElementById('gnote').textContent=document.getElementById('gmsg').value}
+document.querySelector('.gform').oninput=gp;gp();
+var PR=[{n:'Pocket Pup',r:'common',t:'Beginner',p:149,d:'Small, quiet, and easy to love. A friendly first printer.'},{n:'Zippy',r:'common',t:'Beginner',p:229,d:'Quick to set up and quick to print. Great right out of the box.'},{n:'Box Fox',r:'rare',t:'Enclosed',p:399,d:'A closed chamber for ASA and other fussy filaments.'},{n:'Big Bertha',r:'rare',t:'Large build',p:549,d:'A huge print bed for costumes, props, and big ideas.'},{n:'Rainbow Rocket',r:'epic',t:'Multi-color',p:649,d:'Print in lots of colors at once without stopping.'},{n:'Thunder Dragon',r:'legend',t:'Pro',p:899,d:'Our fastest and fiercest, built for serious makers.'}];
+function prs(){
+  document.getElementById('pmsg').textContent='Anyone can order a printer, no level needed. Prices are samples.';
+  document.getElementById('printers').innerHTML=PR.map(p=>`<div class='pr rar-${p.r}'><svg viewBox='0 0 64 48' aria-hidden='true'><rect x='6' y='4' width='52' height='4' rx='2' fill='var(--c)'/><rect x='10' y='8' width='4' height='32' fill='var(--line)'/><rect x='50' y='8' width='4' height='32' fill='var(--line)'/><rect x='24' y='10' width='16' height='8' rx='2' fill='var(--c)'/><polygon points='29,18 35,18 32,24' fill='var(--hot)'/><rect x='6' y='40' width='52' height='6' rx='3' fill='var(--c)'/></svg><span class='lk'>${p.t}</span><h3>${p.n}</h3><p>${p.d}</p><div class='price'>$${p.p}</div><a class='btn' href='mailto:hello@spoolworks.example?subject=${encodeURIComponent('Printer: '+p.n)}'>Order ${p.n}</a></div>`).join('')}
+prs();
+var GT=['Order filament','Special editions','Gift filament','Printers'],GI=['g0','g3','g1','g2'],gt=document.getElementById('gtabs');
+GT.forEach((t,i)=>{var b=document.createElement('button');b.className='tab';b.textContent=t;b.style.setProperty('--c','var(--hot)');b.setAttribute('aria-selected',i===0);b.onclick=()=>{[].forEach.call(gt.children,x=>x.setAttribute('aria-selected',x===b));GI.forEach((id,j)=>document.getElementById(id).hidden=j!==i)};gt.appendChild(b)});
+var ED=[{r:'common',n:'Pumpkin Patch',d:'A seasonal matte orange for fall decor and spooky season.',run:500,p:25,g:'repeating-radial-gradient(circle,#ff8a3d 0 4px,#c4601f 4px 6px)',fx:''},{r:'rare',n:'Liquid Chrome',d:'A silk finish that looks like melted metal.',run:250,p:29,g:'conic-gradient(#e6eef7,#7fa6d6,#e6eef7,#8bb0dc,#e6eef7)',fx:''},{r:'rare',n:'Aurora Silk',d:'Silk that fades from teal through blue to indigo.',run:250,p:29,g:'conic-gradient(var(--hot),var(--cool),var(--vio),var(--lime),var(--hot))',fx:''},{r:'epic',n:'Glow Worm',d:'Charge it under a light, then watch it glow green in the dark.',run:100,p:35,g:'repeating-radial-gradient(circle,#7dffa0 0 4px,#2fd16a 4px 6px)',fx:'glow'},{r:'epic',n:'Galaxy Dust',d:'Deep blue and violet with a sparkle like a night sky.',run:100,p:35,g:'conic-gradient(#14275c,#6366f1,#9a5cf0,#14275c,#4da3ff,#14275c)',fx:''},{r:'legend',n:'Prism Rain',d:'A full rainbow that shifts along the spool.',run:25,p:46,g:'conic-gradient(#e5383b,#ff7a2f,#ffd23f,#3ddc97,#4da3ff,#9a5cf0,#e5383b)',fx:'hue'}];
+document.getElementById('editions').innerHTML=ED.map(e=>`<div class='spool rar-${e.r}' style='border-top:4px solid var(--c)'><span class='tag' style='align-self:flex-start'>${L[e.r]}</span><div class='reel ${e.fx}' style='background:radial-gradient(circle,var(--bg) 0 18%,transparent 19%),${e.g}'></div><h3>${e.n}</h3><p style='margin:0;color:var(--muted)'>${e.d}</p><small>Limited run of ${e.run} spools · $${e.p}</small><a class='btn' href='${ol(e.n,'Special edition')}'>Reserve a spool</a></div>`).join('');
+
+var BD=[{k:'first',g:'★',t:'First pull',c:'--sun'},{k:'rare',g:'✦',t:'Lucky find',c:'--cool'},{k:'five',g:'◆',t:'Collector',c:'--vio'},{k:'leg',g:'♛',t:'Legend',c:'--lime'}];
+document.getElementById('badges').innerHTML=BD.map(b=>`<div class='badge' id='b-${b.k}' style='--c:var(${b.c})'><i>${b.g}</i>${b.t}</div>`).join('');
+var PZ={common:['Mini planter + 10% off your next order','Cable clips + a bonus stamp'],rare:['Desk organizer + a free silk or matte filament upgrade','Gear fidget toy + your choice of color, free'],epic:['Hex tile set + double stamps on your next order'],legend:['Crystal trophy with your name + a free print']},opens=0;
+function unlock(k){document.getElementById('b-'+k).classList.add('on')}
+function pull(){
+  var btn=document.getElementById('open'),mb=document.getElementById('mb');if(btn.disabled)return;
+  btn.disabled=true;mb.classList.remove('shake');void mb.getBoundingClientRect();mb.classList.add('shake');
+  setTimeout(function(){
+    var x=Math.random()*100,r=x<60?'common':x<85?'rare':x<97?'epic':'legend',l=PZ[r],n=l[Math.floor(Math.random()*l.length)];
+    opens++;
+    document.getElementById('prize').innerHTML=`<div class='pop rar-${r}'><span class='tag'>${L[r]}</span><b>${n}</b>Pull #${opens}</div>`;
+    unlock('first');if(r!=='common')unlock('rare');if(opens>=5)unlock('five');if(r==='legend')unlock('leg');
+    btn.disabled=false;
+  },650);
+}
+document.getElementById('open').onclick=pull;document.getElementById('mb').onclick=pull;
+var P=[{n:'Starter',m:15,f:['1 mystery print each month','Collector badge','Choose your favorite colors']},{n:'Maker',m:35,hot:1,f:['3 prints each month','Early access to new drops','Better odds on rare pulls']},{n:'Collector',m:65,f:['6 prints each month','Best odds on epic and legendary','One custom print each quarter']}],yr=false;
+function plans(){document.getElementById('plans').innerHTML=P.map(p=>`<div class='plan${p.hot?' feat':''}'>${p.hot?`<span class='pill'>Most popular</span>`:''}<h3>${p.n}</h3><div class='price'>$${yr?Math.round(p.m*.8):p.m}<small> /month${yr?', billed yearly':''}</small></div><ul>${p.f.map(f=>`<li>${f}</li>`).join('')}</ul><a class='btn${p.hot?'':' ghost'}' href='mailto:hello@spoolworks.example?subject=Join%20Spool%20Club%20(${p.n})'>Join ${p.n}</a></div>`).join('')}
+document.querySelectorAll('.bill button').forEach(b=>b.onclick=function(){yr=b.dataset.y==='1';document.querySelectorAll('.bill button').forEach(x=>x.setAttribute('aria-pressed',x===b));plans()});
+plans();
+var PG={home:['hero','tiles'],how:['services','process'],materials:['materials','finishes'],models:['models'],perks:['shop','club','levels'],store:['gear']},shown=null;
+function route(){var h=location.hash.slice(1)||'home',p=PG[h]?h:(shown||'home');
+  if(p!==shown){shown=p;document.body.dataset.page=p;document.querySelectorAll('main>section').forEach(s=>{s.hidden=!(PG[p].indexOf(s.id)>-1||s.id==='contact')});document.querySelectorAll('nav ul a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+p))}
+  if(PG[h])scrollTo(0,0);else{var t=document.getElementById(h);if(t)t.scrollIntoView()}}
+addEventListener('hashchange',route);route();
+</script>
+</body>
+</html>
